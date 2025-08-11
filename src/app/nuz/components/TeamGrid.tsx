@@ -8,6 +8,7 @@ interface TeamGridProps {
   onAddPokemon: (teamIndex: number, slotIndex: number) => void;
   onOpenStats: (pokemon: Pokemon) => void;
   onTrainerNameChange: (teamIndex: number, name: string) => void;
+  onOpenInventory: () => void;
   typeColors: Record<string, string>;
 }
 
@@ -17,6 +18,7 @@ export default function TeamGrid({
   onAddPokemon,
   onOpenStats,
   onTrainerNameChange,
+  onOpenInventory,
   typeColors
 }: TeamGridProps) {
   // Different background colors for each team
@@ -41,7 +43,7 @@ export default function TeamGrid({
       </div>
       
       {/* Pokemon Grid */}
-      <div className="grid grid-cols-3 grid-rows-2 gap-2">
+      <div className="grid grid-cols-3 grid-rows-2 gap-2 mb-4">
         {team.pokemon.map((pokemon, slotIndex) => (
           <div key={slotIndex} className="bg-gray-700 border-2 border-gray-500 rounded-lg p-2">
             <PokemonCard
@@ -54,6 +56,16 @@ export default function TeamGrid({
             />
           </div>
         ))}
+      </div>
+
+      {/* Inventory Button */}
+      <div className="text-center">
+        <button
+          onClick={onOpenInventory}
+          className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded border-2 border-yellow-800 hover:border-yellow-700 transition-colors"
+        >
+          VIEW INVENTORY
+        </button>
       </div>
     </div>
   );

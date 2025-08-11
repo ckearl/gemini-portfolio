@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Pokemon, Team } from './types';
 import TeamGrid from './components/TeamGrid';
 import PokemonSelectionModal from './components/PokemonSelectionModal';
 import PokemonStatsModal from './components/PokemonStatsModal';
+import InventoryModal from './components/InventoryModal';
 
 const typeColors: { [key: string]: string } = {
   normal: 'bg-gray-400',
@@ -28,7 +28,8 @@ const typeColors: { [key: string]: string } = {
   fairy: 'bg-pink-300',
 };
 
-const defaultPokemon: Pokemon[] = [
+// All available Pokemon for the nuzlocke
+const allAvailablePokemon: Pokemon[] = [
   { 
     id: 1, 
     name: 'Bulbasaur', 
@@ -83,23 +84,151 @@ const defaultPokemon: Pokemon[] = [
     evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
     nature: 'Hardy'
   },
+  { 
+    id: 16, 
+    name: 'Pidgey', 
+    types: ['normal', 'flying'],
+    baseStats: { hp: 40, attack: 45, defense: 40, specialAttack: 35, specialDefense: 35, speed: 56 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 19, 
+    name: 'Rattata', 
+    types: ['normal'],
+    baseStats: { hp: 30, attack: 56, defense: 35, specialAttack: 25, specialDefense: 35, speed: 72 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 152, 
+    name: 'Chikorita', 
+    types: ['grass'],
+    baseStats: { hp: 45, attack: 49, defense: 65, specialAttack: 49, specialDefense: 65, speed: 45 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 155, 
+    name: 'Cyndaquil', 
+    types: ['fire'],
+    baseStats: { hp: 39, attack: 52, defense: 43, specialAttack: 60, specialDefense: 50, speed: 65 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 158, 
+    name: 'Totodile', 
+    types: ['water'],
+    baseStats: { hp: 50, attack: 65, defense: 64, specialAttack: 44, specialDefense: 48, speed: 43 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 179, 
+    name: 'Mareep', 
+    types: ['electric'],
+    baseStats: { hp: 55, attack: 40, defense: 40, specialAttack: 65, specialDefense: 45, speed: 35 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 183, 
+    name: 'Marill', 
+    types: ['water', 'fairy'],
+    baseStats: { hp: 70, attack: 20, defense: 50, specialAttack: 20, specialDefense: 50, speed: 40 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 147, 
+    name: 'Dratini', 
+    types: ['dragon'],
+    baseStats: { hp: 41, attack: 64, defense: 45, specialAttack: 50, specialDefense: 50, speed: 50 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 161, 
+    name: 'Sentret', 
+    types: ['normal'],
+    baseStats: { hp: 35, attack: 46, defense: 34, specialAttack: 35, specialDefense: 45, speed: 20 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 163, 
+    name: 'Hoothoot', 
+    types: ['normal', 'flying'],
+    baseStats: { hp: 60, attack: 30, defense: 30, specialAttack: 36, specialDefense: 56, speed: 50 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 23, 
+    name: 'Ekans', 
+    types: ['poison'],
+    baseStats: { hp: 35, attack: 60, defense: 44, specialAttack: 40, specialDefense: 54, speed: 55 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
+  { 
+    id: 27, 
+    name: 'Sandshrew', 
+    types: ['ground'],
+    baseStats: { hp: 50, attack: 75, defense: 85, specialAttack: 20, specialDefense: 30, speed: 40 },
+    ivs: { hp: 31, attack: 31, defense: 31, specialAttack: 31, specialDefense: 31, speed: 31 },
+    evs: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0 },
+    nature: 'Hardy'
+  },
 ];
 
 export default function SoulLinkPage() {
   const [teams, setTeams] = useState<Team[]>([
     {
-      trainer: 'Player 1',
-      pokemon: [...defaultPokemon],
+      trainer: 'Toph',
+      pokemon: Array(6).fill(null), // Start with 6 empty slots
     },
     {
-      trainer: 'Player 2',
-      pokemon: [...defaultPokemon],
+      trainer: 'Buddy',
+      pokemon: Array(6).fill(null), // Start with 6 empty slots
     },
   ]);
 
   const [editingTeam, setEditingTeam] = useState<number | null>(null);
   const [editingSlot, setEditingSlot] = useState<number | null>(null);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [inventoryModalOpen, setInventoryModalOpen] = useState<number | null>(null);
+
+  // Get all Pokemon that are currently in use by either team
+  const getUsedPokemonSpecies = () => {
+    const usedSpecies = new Set<string>();
+    teams.forEach(team => {
+      team.pokemon.forEach(pokemon => {
+        if (pokemon) {
+          usedSpecies.add(pokemon.name);
+        }
+      });
+    });
+    return usedSpecies;
+  };
+
+  // Get available Pokemon for selection (excluding already used species)
+  const getAvailablePokemon = () => {
+    const usedSpecies = getUsedPokemonSpecies();
+    return allAvailablePokemon.filter(pokemon => !usedSpecies.has(pokemon.name));
+  };
 
   const handlePokemonChange = (teamIndex: number, slotIndex: number, pokemon: Pokemon | null) => {
     const newTeams = [...teams];
@@ -138,6 +267,10 @@ export default function SoulLinkPage() {
     }
   };
 
+  const openInventory = (teamIndex: number) => {
+    setInventoryModalOpen(teamIndex);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-300 to-green-400 font-mono">
       {/* Battle Arena Background */}
@@ -173,6 +306,7 @@ export default function SoulLinkPage() {
                   onAddPokemon={addPokemon}
                   onOpenStats={openPokemonStats}
                   onTrainerNameChange={handleTrainerNameChange}
+                  onOpenInventory={() => openInventory(teamIndex)}
                   typeColors={typeColors}
                 />
               ))}
@@ -192,7 +326,7 @@ export default function SoulLinkPage() {
                   setEditingSlot(null);
                 }
               }}
-              defaultPokemon={defaultPokemon}
+              defaultPokemon={getAvailablePokemon()}
               typeColors={typeColors}
             />
 
@@ -208,17 +342,32 @@ export default function SoulLinkPage() {
               />
             )}
 
-            {/* Navigation - styled like battle buttons */}
-            <div className="mt-6 text-center">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg border-4 border-blue-800 hover:border-blue-700 transition-colors text-lg"
-              >
-                ← BACK TO HOME
-              </Link>
-            </div>
+            {/* Inventory Modal */}
+            {inventoryModalOpen !== null && (
+              <InventoryModal
+                isOpen={inventoryModalOpen !== null}
+                onClose={() => setInventoryModalOpen(null)}
+                team={teams[inventoryModalOpen]}
+                allPokemon={allAvailablePokemon}
+                typeColors={typeColors}
+              />
+            )}
+
           </div>
         </div>
+      </div>
+      
+      {/* Action Buttons - bottom right corner */}
+      <div className="fixed bottom-4 right-4 flex flex-row gap-2 z-20">
+        <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg border-4 border-gray-800 hover:border-gray-700 transition-colors text-sm">
+          TYPE CHART
+        </button>
+        <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg border-4 border-gray-800 hover:border-gray-700 transition-colors text-sm">
+          SOUL LINK RULES
+        </button>
+        <button className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg border-4 border-gray-800 hover:border-gray-700 transition-colors text-sm">
+          LOGIN
+        </button>
       </div>
     </div>
   );
