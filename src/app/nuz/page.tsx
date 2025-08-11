@@ -141,7 +141,7 @@ export default function SoulLinkPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-300 to-green-400 font-mono">
       {/* Battle Arena Background */}
-      <div className="relative h-full">
+      <div className="relative min-h-screen">
         {/* Sky */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-300 via-sky-200 to-green-300"></div>
         
@@ -152,13 +152,15 @@ export default function SoulLinkPage() {
         <div className="absolute bottom-0 left-1/4 w-32 h-16 bg-green-500 rounded-full opacity-80"></div>
         <div className="absolute bottom-0 right-1/4 w-32 h-16 bg-green-500 rounded-full opacity-80"></div>
         
-        <div className="relative z-10 p-4">
+        <div className="relative z-10 p-4 min-h-screen">
           <div className="max-w-6xl mx-auto">
             {/* Title Bar - styled like Pokemon health bar */}
-            <div className="bg-gray-700 border-4 border-gray-800 rounded-lg p-4 mb-6 text-center">
-              <h1 className="text-3xl font-bold text-white tracking-wider">
-                POKEMON SOUL LINK NUZLOCKE
-              </h1>
+            <div className="flex justify-center items-center">
+                <div className="bg-gray-700 border-4 border-gray-800 rounded-lg p-4 mb-6 text-center">
+                <h1 className="text-3xl font-bold text-white tracking-wider">
+                    POKENUZLOCK(ED IN)
+                </h1>
+                </div>
             </div>
             
             {/* Teams Container */}

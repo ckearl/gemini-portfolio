@@ -19,8 +19,16 @@ export default function TeamGrid({
   onTrainerNameChange,
   typeColors
 }: TeamGridProps) {
+  // Different background colors for each team
+  const teamBackgrounds = [
+    'bg-blue-400 border-blue-500', // Player 1 (My Team) - Blue theme
+    'bg-purple-400 border-purple-500' // Player 2 (Friend's Team) - Purple theme
+  ];
+  
+  const currentBackground = teamBackgrounds[teamIndex] || 'bg-gray-800 border-gray-600';
+
   return (
-    <div className="bg-gray-800 border-4 border-gray-600 rounded-lg p-4">
+    <div className={`${currentBackground} border-4 rounded-lg p-4`}>
       {/* Team Header */}
       <div className="mb-4">
         <input
@@ -33,7 +41,7 @@ export default function TeamGrid({
       </div>
       
       {/* Pokemon Grid */}
-      <div className="grid grid-cols-3 grid-rows-2 gap-2 h-48">
+      <div className="grid grid-cols-3 grid-rows-2 gap-2">
         {team.pokemon.map((pokemon, slotIndex) => (
           <div key={slotIndex} className="bg-gray-700 border-2 border-gray-500 rounded-lg p-2">
             <PokemonCard
