@@ -88,7 +88,7 @@ export default function SaveStatus({ teams, onTeamsLoad }: SaveStatusProps) {
   };
 
   return (
-    <div className="fixed top-4 left-4 z-20">
+    <div className="fixed bottom-4 left-4 z-20">
       <div className="bg-gray-700 border-2 border-gray-800 rounded-lg p-3 text-white">
         <div className="text-xs font-bold mb-1">SAVE STATUS</div>
         

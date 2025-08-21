@@ -29,6 +29,31 @@ export interface Pokemon {
     speed: number;
   };
   nature: string;
+  moves?: Move[];
+  status?: Status;
+  level?: number;
+  spriteUrl?: Sprites;
+}
+
+export interface Sprites {
+  soulSilverFrontDefault?: string;
+  // more to be added as needed
+}
+
+export interface Status {
+  type: 'normal' | 'poison' | 'burn' | 'freeze' | 'paralysis' | 'sleep';
+  turns?: number; // Number of turns affected, if applicable
+  isPermanent?: boolean; // Whether the status lasts until cured or is temporary
+}
+
+export interface Move {
+  name: string;
+  type: string;
+  category: 'physical' | 'special' | 'status';
+  power: number;
+  accuracy: number;
+  pp: number;
+  priority: number;
 }
 
 export interface Team {
