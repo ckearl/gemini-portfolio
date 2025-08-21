@@ -3,13 +3,14 @@ import { Team, Pokemon } from "@/app/nuz/types";
 import PokemonCard from './PokemonCard';
 
 interface TeamGridProps {
-  team: Team;
-  teamIndex: number;
-  onAddPokemon: (teamIndex: number, slotIndex: number) => void;
-  onOpenStats: (pokemon: Pokemon) => void;
-  onTrainerNameChange: (teamIndex: number, name: string) => void;
-  onOpenInventory: () => void;
-  typeColors: Record<string, string>;
+	team: Team;
+	teamIndex: number;
+	onAddPokemon: (teamIndex: number, slotIndex: number) => void;
+	onOpenStats: (pokemon: Pokemon) => void;
+	onTrainerNameChange: (teamIndex: number, name: string) => void;
+	onOpenInventory: () => void;
+	typeColors: Record<string, string>;
+	disabled: boolean;
 }
 
 export default function TeamGrid({
@@ -19,7 +20,8 @@ export default function TeamGrid({
   onOpenStats,
   onTrainerNameChange,
   // onOpenInventory,
-  typeColors
+  typeColors,
+  disabled = false
 }: TeamGridProps) {
   // Different background colors for each team
   const teamBackgrounds = [
