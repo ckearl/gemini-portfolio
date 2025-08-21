@@ -58,15 +58,16 @@ export default function TeamGrid({
         ))}
       </div>
 
+      {/* TODO: Have a full inventory of items, pokeballs, and other needed info for the other player */}
       {/* Inventory Button */}
-      <div className="text-center">
+      {/* <div className="text-center">
         <button
           onClick={onOpenInventory}
           className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded border-2 border-yellow-800 hover:border-yellow-700 transition-colors"
         >
           VIEW INVENTORY
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
