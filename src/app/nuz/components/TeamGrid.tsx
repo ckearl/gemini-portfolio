@@ -18,7 +18,7 @@ export default function TeamGrid({
   onAddPokemon,
   onOpenStats,
   onTrainerNameChange,
-  onOpenInventory,
+  // onOpenInventory,
   typeColors
 }: TeamGridProps) {
   // Different background colors for each team
